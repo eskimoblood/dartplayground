@@ -6,6 +6,7 @@
 class EventBus {
     Map<String, List<Function>> _eventStore;
     
+ 
     bind(String name, Function function){
       if(_eventStore == null) {
         _eventStore = {};
@@ -18,10 +19,17 @@ class EventBus {
     } 
     
     void trigger(String name, [value]){
-      List<Function> functions = _eventStore[name];
-      if(functions == null){
+      
+      if (_eventStore == null) {
         return;
       }
+      
+      List<Function> functions = _eventStore[name];
+      
+      if (functions == null) {
+        return;
+      }
+      
       functions.forEach((el) => value == null ? el() : el(value));
     }
     

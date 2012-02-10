@@ -1,6 +1,7 @@
 #import('dart:html');
-
+#import('../mvp/mvp_.dart');
 #source('Input.dart');
+#source('TodoList.dart');
 
 class todo {
 
@@ -8,10 +9,12 @@ class todo {
   }
 
   void run() {
-    new Input();
+    Coll<Model> collection = new Coll<Model>();
+    collection.store = new LocalStore();
+    collection.uri = 'todo';
+    new Input(collection);
+    new TodoList(collection);
   }
-
-
 }
 
 void main() {
