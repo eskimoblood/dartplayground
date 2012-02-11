@@ -12,7 +12,7 @@ class Input {
     if (keyCode != 13) return;
      
     Model m = new Model();
-    m['text']  =_input.value;
+    m['text']  = _input.value;
     collection.add(m);
     collection.save();
     _input.value = "";

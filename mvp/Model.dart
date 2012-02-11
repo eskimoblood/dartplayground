@@ -9,23 +9,21 @@ class Model extends EventBus implements Hashable{
     _model = new HashMap<String, Dynamic>();
     _store = new XHRStore();
     _isNew = true;
+    //TODO make a better hash 
     _id = Math.random() * 100000;
   }
   
   Model.fromJSON(this._model){
     _store = new XHRStore();
     _isNew = true;
+    //TODO make a better hash 
     _id = Math.random() * 100000;
   }
-
-  
-
     
   Dynamic operator [] (String key) => _model[key];
   
   void operator []= (String key, value){
    if(key == null) return;
-   print(key);
     _model[key]=value;
     trigger('change:' + key, value);
     trigger('change', _model);

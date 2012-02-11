@@ -8,19 +8,19 @@ interface Store{
 class XHRStore implements Store{
   
   void read(Storeable storeable, Function callback){
-    request("GET", storeable.url, '', callback);
+    request("GET", storeable.uri, '', callback);
   }
   
   void create(Storeable storeable, Function callback){
-    request("POST", storeable.url, storeable.toStore(), callback);
+    request("POST", storeable.uri, storeable.toStore(), callback);
   }
   
   void update(Storeable storeable, Function callback){
-    request("PUT", storeable.url, storeable.toStore(), callback);
+    request("PUT", storeable.uri, storeable.toStore(), callback);
   }
   
   void remove(Storeable storeable, Function callback){
-    request("DELETE", storeable.url, null,callback);
+    request("DELETE", storeable.uri, null,callback);
   }
   
   void request(String type, String url, String payload,  Function callback){
@@ -45,7 +45,7 @@ class LocalStore implements Store{
   }
   
   void read(Storeable storeable, Function callback){
-   callback(_storage.getItem(storeable.uri));
+    callback(JSON.parse(window.localStorage.getItem(storeable.uri)));
   }
   
   void create(Storeable storeable, Function callback){
