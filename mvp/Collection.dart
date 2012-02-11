@@ -27,6 +27,12 @@ class Coll<T> extends EventBus implements Storeable{
     }
   }
   
+  void fetch(){
+    store.read(this, function(List<Map<String, Dynamic>> map){
+      map.forEach((m) => this.add(new Model.fromJSON(m)));
+    } );
+}
+  
   String toStore(){
     String s = '[';
     bool first=true;
