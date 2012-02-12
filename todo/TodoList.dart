@@ -18,7 +18,7 @@ class TodoList {
   
   void removeItem(Model m, LIElement li){
     li.remove();
-    collection.remove(m);
+    collection.delete(m);
     collection.save();
   }
   

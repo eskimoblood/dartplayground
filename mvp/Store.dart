@@ -2,7 +2,7 @@ interface Store{
   read(Storeable storeable, Function callback);
   create(Storeable storeable, Function callback);
   update(Storeable storeable, Function callback);
-  remove(Storeable storeable, Function callback);
+  delete(Storeable storeable, Function callback);
 }
 
 class XHRStore implements Store{
@@ -19,7 +19,7 @@ class XHRStore implements Store{
     request("PUT", storeable.uri, storeable.toStore(), callback);
   }
   
-  void remove(Storeable storeable, Function callback){
+  void delete(Storeable storeable, Function callback){
     request("DELETE", storeable.uri, null,callback);
   }
   
@@ -57,7 +57,7 @@ class LocalStore implements Store{
     create(storeable, callback);
   }
   
-  void remove(Storeable storeable, Function callback){
+  void delete(Storeable storeable, Function callback){
     _storage.setItem(storeable.uri, null);
     callback();
   }
