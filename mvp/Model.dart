@@ -49,6 +49,10 @@ class Model extends EventBus implements Hashable{
     }
   }
   
+  void destroy(){
+    trigger('destroy');
+  }
+  
   int hashCode(){
     return _id;
   }

@@ -8,24 +8,42 @@ class TodoList {
   }
   
   void addItem(Model m){
-    LIElement li = new Element.html('<li><input type="checkbox" /><span class="todo-content">${m['text']}</span><span class="todo-destroy"/></li>');
-    li.query('span.todo-destroy').on.click.add((event) => removeItem(m, li));
-    li.query('input').on.click.add((event) => setState(m, li));
-    li.attributes['class'] = m['done'] ? 'done' : '';
-    li.query('input').checked = m['done'];
-    list.insertBefore(li, list.firstElementChild);
+    new TodoItem(m, list);
   }
+
+}
+
+class TodoItem{
+ Model _m;
+ LIElement _li;
+ 
+  TodoItem(this._m, UListElement list){
+    _li = new Element.html('<li><p><input type="checkbox" /><span class="todo-content">${_m['text']}</span><span class="todo-destroy"/></p></li>');
+    _li.query('span.todo-destroy').on.click.add((event) => removeItem(_m, _li));
+    _li.query('input').on.click.add((event) => setState(_m, _li));
+    _li.attributes['class'] = _m['done'] ? 'done' : '';
+    _li.query('input').checked = _m['done'];
+    list.insertBefore(_li, list.firstElementChild);
+    _m.bind('destroy', ()=>_li.remove());
+    _m.bind('change', (m)=> update());
+  } 
   
   void removeItem(Model m, LIElement li){
     li.remove();
-    collection.delete(m);
-    collection.save();
+    m.destroy();
   }
   
   void setState(Model m, LIElement li){
     InputElement check = li.query('input');
     li.attributes['class'] = check.checked ? 'done' : '';
-    m['done'] = check.checked;
-    collection.save();
+    _m['done'] = check.checked;
   }
+  
+  void update(){
+    bool state = _m['done'];
+    _li.query('input').checked = state;
+    _li.attributes['class'] = state ? 'done' : '';
+    
+  }
+  
 }
