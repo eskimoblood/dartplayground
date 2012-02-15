@@ -18,7 +18,7 @@ class TodoItem{
  LIElement _li;
  
   TodoItem(this._m, UListElement list){
-    _li = new Element.html('<li><p><input type="checkbox" /><span class="todo-content">${_m['text']}</span><span class="todo-destroy"/></p></li>');
+    _li = new Element.html('<li><p><input type="checkbox" class="check" /><span class="todo-content">${_m['text']}</span><span class="todo-destroy"/></p></li>');
     _li.query('span.todo-destroy').on.click.add((event) => removeItem(_m, _li));
     _li.query('input').on.click.add((event) => setState(_m, _li));
     _li.attributes['class'] = _m['done'] ? 'done' : '';
