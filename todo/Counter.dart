@@ -3,11 +3,11 @@ class TodoCounter {
   DivElement panel;
   
   TodoCounter(this.collection){
-    collection.bind('change', updateMetaData);
+    collection.bind('change',() => updateMetaData);
     panel = window.document.query('#todo-stats');
   }
   
-  void updateMetaData(){
+  void updateMetaData([Model m]){
     panel.innerHTML = '<span class="todo-count">${getCounter()}</span><span class="todo-clear">${getDoneCounter()}</span>';
     panel.query('span.todo-clear').on.click.add(removeAllDone);
   }

@@ -16,34 +16,70 @@ class TodoList {
 class TodoItem{
  Model _m;
  LIElement _li;
+ InputElement _checkbox;
+ InputElement _edit;
+ SpanElement _content;
  
   TodoItem(this._m, UListElement list){
-    _li = new Element.html('<li><p><input type="checkbox" class="check" /><span class="todo-content">${_m['text']}</span><span class="todo-destroy"/></p></li>');
-    _li.query('span.todo-destroy').on.click.add((event) => removeItem(_m, _li));
-    _li.query('input').on.click.add((event) => setState(_m, _li));
-    _li.attributes['class'] = _m['done'] ? 'done' : '';
-    _li.query('input').checked = _m['done'];
-    list.insertBefore(_li, list.firstElementChild);
-    _m.bind('destroy', ()=>_li.remove());
-    _m.bind('change', (m)=> update());
+    _li = new Element.html(template());
+    
+    _li.query('span.todo-destroy').on.click.add(removeItem);
+    
+    _content = _li.query('label.todo-content');
+    _content.on.dblClick.add(startEdit);
+    
+    _edit = _li.query('input.todo-input');
+    _edit.on.blur.add(endEdit);
+    
+    _checkbox = _li.query('input.check');
+    _checkbox.on.click.add(setState);
+   
+    list.nodes.add(_li);
+    _m.bind('destroy', () =>_li.remove());
+    _m.bind('change', update);
+    
+    update(_m);
   } 
   
-  void removeItem(Model m, LIElement li){
-    li.remove();
-    m.destroy();
+   removeItem(Event e){
+    _li.remove();
+    _m.destroy();
   }
   
-  void setState(Model m, LIElement li){
-    InputElement check = li.query('input');
-    li.attributes['class'] = check.checked ? 'done' : '';
-    _m['done'] = check.checked;
+  void setState(Event e){
+    _li.attributes['class'] = _checkbox.checked ? 'done' : '';
+    _m['done'] = _checkbox.checked;
   }
   
-  void update(){
+  void update(Model m){
     bool state = _m['done'];
-    _li.query('input').checked = state;
+    _checkbox.checked = state;
     _li.attributes['class'] = state ? 'done' : '';
-    
+    _content.innerHTML = _m['text'];
   }
   
+  void startEdit(Event e){
+    _li.attributes['class'] = 'editing';
+    _edit.value = _m['text'];
+  }
+  
+  void endEdit(Event e){
+    _m['text'] = _edit.value;
+    _li.attributes['class'] = '';
+  }
+  
+  String template (){
+    return '''
+      <li>
+          <div class="display">
+            <input class="check" type="checkbox">
+            <label class="todo-content"></label>
+            <span class="todo-destroy"></span>
+          </div>
+          <div class="edit">
+            <input class="todo-input" type="text">
+          </div>
+      </li>
+    ''';
+  }
 }
