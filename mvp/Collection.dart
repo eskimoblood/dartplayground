@@ -1,11 +1,11 @@
 class Coll<T extends Model> extends EventBus implements Storeable{
-  Set _set;
+  Set<T> _set;
   Store store;
   String uri;
   bool _isNew;
   
   Coll(){
-    _set = new HashSet();
+    _set = new HashSet<T>();
   }
   
   /**
@@ -13,7 +13,7 @@ class Coll<T extends Model> extends EventBus implements Storeable{
    **/
   void add(T value){
     _set.add(value);
-    value.bind('change', (m)=> trigger('change'));
+    value.bind('change', (T m)=> trigger('change', m));
     value.bind('destroy', () => remove(value));
     trigger('add', value);
     trigger('change');
@@ -23,7 +23,6 @@ class Coll<T extends Model> extends EventBus implements Storeable{
    * delete the passed item to the collection, fires an "remove" event
    **/
   void remove(T value){
-    print('collection:remove');
     _set.remove(value);
     trigger('remove', value);
     trigger('change');
@@ -49,8 +48,11 @@ class Coll<T extends Model> extends EventBus implements Storeable{
   void fetch(){
     if(store != null){
       store.read(this, function(List<Map<String, Dynamic>> map){
-        map.forEach((m) => this.add(new Model.fromJSON(m)));
-      } );
+        print(map);
+        map.forEach((Map<String, Dynamic> m){
+          this.add(new Model.fromJSON(m));
+        });
+      }) ;
     }else{
       
     }

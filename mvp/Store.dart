@@ -45,7 +45,10 @@ class LocalStore implements Store{
   }
   
   void read(Storeable storeable, Function callback){
-    callback(JSON.parse(window.localStorage.getItem(storeable.uri)));
+    String stored = window.localStorage.getItem(storeable.uri);
+    if(stored != null){
+      callback(JSON.parse(window.localStorage.getItem(storeable.uri)));
+    }
   }
   
   void create(Storeable storeable, Function callback){

@@ -10,14 +10,15 @@ class Model extends EventBus implements Hashable{
     _store = new XHRStore();
     _isNew = true;
     //TODO make a better hash 
-    _id = Math.random() * 100000;
+    _id =  100000;
   }
   
   Model.fromJSON(this._model){
     _store = new XHRStore();
     _isNew = true;
     //TODO make a better hash 
-    _id = Math.random() * 100000;
+    _id =  100000;
+    print(_id);
   }
     
   Dynamic operator [] (String key) => _model[key];
