@@ -10,6 +10,15 @@ class drwTest {
 
   void run() {
     group('Point', (){
+      
+      
+      test('should be initialized by a length and an angle', (){
+        Vec2D v =  new Vec2D(length:5, angle:  0);
+        Expect.equals(5, v.x);
+        Expect.equals(0, v.y);
+      });
+      
+      
       test('should be sum with other point', (){
         Vec2D v = new Vec2D(1,1) + new Vec2D(2,1);
         Expect.equals(3, v.x);
@@ -80,6 +89,13 @@ class drwTest {
         Expect.equals(-2, new Vec2D(2, 3).cross(new Vec2D(4, 5)));
       });
       
+    });
+    
+    group('Line', function(){
+      test('should be initialize by a point a length and an angle', (){
+        Line l = new Line(new Vec2D(1,1), length: 10);
+        Expect.isTrue(l.p2 == new Vec2D(11, 1));
+      });
     });
     
     

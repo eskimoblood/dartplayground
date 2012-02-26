@@ -1,10 +1,22 @@
 class Line {
   Vec2D p1;
   Vec2D p2;
+  Vec2D point;
+  Vec2D vector;
+  bool infinite;
   
-  Line(this.p1, this.p2){}
-  
-  Line.b(this.p1, int length, [int angle = 0]){
-   // p2 = p1 + new Vec2D(angle:angle, length : length);
+  Line(this.p1, this.p2){
+    point = p1;
+    vector = p2;
+    infinite = false;
   }
+  
+  Line.infinite(this.p1, this.p2){
+    point = p1;
+    vector = p2 - p1;
+    infinite = true;
+  }
+ 
+  
+  
 }

@@ -2,7 +2,7 @@ class Vec2D {
   num x;
   num y;
   
-  Vec2D([this.x = 0, this.y = 0, num this.length = 0, num this.angle=0]){
+  Vec2D([this.x = 0, this.y = 0, num length = 0, num angle=0]){
     if(length != 0){
         x += length * Math.cos(angle);
         y += length * Math.sin(angle);
@@ -58,9 +58,8 @@ class Vec2D {
   } 
   
   num getDistance (Vec2D point) {
-    num distX = point.x - x;
-    num distY = point.y - y;
-    return Math.sqrt(distX * distX + distY * distY);
+    Vec2D dist = point - this;
+    return Math.sqrt(dist.x * dist.x + dist.y * dist.y);
   }
   
   num dot(Vec2D point) =>  x * point.x + y * point.y;
@@ -69,10 +68,6 @@ class Vec2D {
   
   num getAngle (Vec2D point) => Math.acos(dot(point));
   
-  
-
-  
   String toString() => '{"x":${x},"y":${y}}';
-  
   
 }
